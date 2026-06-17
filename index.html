@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>한자리</title>
+  <link rel="icon" type="image/jpeg" href="https://profile.img.sooplive.co.kr/LOGO/ap/apple100l/apple100l.jpg">
+  <meta name="description" content="한자리 공식 페이지">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="한자리">
+  <meta property="og:description" content="한자리 공식 페이지">
+  <meta property="og:image" content="https://profile.img.sooplive.co.kr/LOGO/ap/apple100l/apple100l.jpg">
+  <meta property="og:image:width" content="600">
+  <meta property="og:image:height" content="600">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="한자리">
+  <meta name="twitter:description" content="한자리 공식 페이지">
+  <meta name="twitter:image" content="https://profile.img.sooplive.co.kr/LOGO/ap/apple100l/apple100l.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.min.css">
+
+  <style>
+    /* ============================================================
+       🎨 색 바꾸기 — 이 5개 + --logo 만 바꾸면 전체 색이 바뀜
+       ============================================================ */
+    :root{
+      --main:       #91232e;
+      --main-dark:  #6f1820;
+      --main-light: #f5e4e5;
+      --bg:         #fdf3f3;
+      --card:       #fffafb;
+      --logo:       #91232e;
+      --text:       #3d2d30;
+      --text-soft:  #ab8d92;
+
+      --glass: rgba(255,255,255,.74);
+      --line:  rgba(145,35,46,.16);
+      --star:  rgba(145,35,46,.10);
+      --grad:  linear-gradient(180deg,#fbeef0 0%, #fdf6f3 46%, #fbf2ee 100%);
+
+      --logo-font: 'Jua','Gowun Dodum','Noto Sans KR',sans-serif;
+      --title-font:'Gowun Dodum','Pretendard','Noto Sans KR',sans-serif;
+      --body:      'Pretendard','Noto Sans KR',sans-serif;
+      --frame-w: 600px;   /* 세로형 폭 */
+    }
+    body.dark{
+      --main:       #e58a93;
+      --main-dark:  #f2b3ba;
+      --main-light: #3a242a;
+      --bg:         #161019;
+      --card:       #221b24;
+      --logo:       #f2b3ba;
+      --text:       #efe2e4;
+      --text-soft:  #b89aa0;
+      --glass: rgba(28,22,30,.62);
+      --line:  rgba(229,138,147,.20);
+      --star:  rgba(255,250,230,.55);
+      --grad:  linear-gradient(180deg,#1b1320 0%, #14101a 60%, #0f0c14 100%);
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+      font-family:var(--body); color:var(--text);
+      background:var(--grad) fixed, var(--bg);
+      min-height:100vh; padding:24px 14px 64px;
+      position:relative; overflow-x:hidden;
+      transition:background .25s ease,color .25s ease;
+      -webkit-font-smoothing:antialiased;
+    }
+    body::before{
+      content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+      background-image:
+        radial-gradient(1.6px 1.6px at 12% 18%, var(--star) 50%, transparent 51%),
+        radial-gradient(1.2px 1.2px at 78% 12%, var(--star) 50%, transparent 51%),
+        radial-gradient(2px 2px   at 35% 70%, var(--star) 50%, transparent 51%),
+        radial-gradient(1.2px 1.2px at 88% 64%, var(--star) 50%, transparent 51%),
+        radial-gradient(1.6px 1.6px at 60% 38%, var(--star) 50%, transparent 51%),
+        radial-gradient(1.2px 1.2px at 22% 88%, var(--star) 50%, transparent 51%),
+        radial-gradient(1.6px 1.6px at 92% 92%, var(--star) 50%, transparent 51%),
+        radial-gradient(1.2px 1.2px at 50% 6%,  var(--star) 50%, transparent 51%);
+    }
+
+    /* ── 미니홈피 창(프레임) ── */
+    .frame{
+      position:relative; z-index:1;
+      max-width:var(--frame-w); margin:0 auto;
+      background:var(--glass);
+      -webkit-backdrop-filter:blur(9px); backdrop-filter:blur(9px);
+      border:1.5px solid var(--line); border-radius:26px;
+      box-shadow:0 18px 60px rgba(80,20,30,.16);
+      padding:0 18px 26px; overflow:hidden;
+    }
+    .frame::after{
+      content:''; position:absolute; top:-70px; right:-70px;
+      width:200px; height:200px; border-radius:50%;
+      background:radial-gradient(circle, rgba(233,201,160,.30), transparent 65%);
+      pointer-events:none;
+    }
+    body.dark .frame::after{ background:radial-gradient(circle, rgba(255,230,184,.18), transparent 65%); }
+
+    /* ── 레트로 브라우저 크롬 바 ── */
+    .chrome{
+      display:flex; align-items:center; gap:10px;
+      margin:0 -18px 18px; padding:12px 16px;
+      border-bottom:1.5px solid var(--line);
+      background:linear-gradient(180deg, var(--main-light), transparent);
+    }
+    .dots{ display:inline-flex; gap:6px; flex-shrink:0; }
+    .dots i{ width:11px; height:11px; border-radius:50%; background:var(--main); opacity:.85; }
+    .dots i:nth-child(2){ opacity:.6 } .dots i:nth-child(3){ opacity:.4 }
+    .addr{
+      flex:1; text-align:center; font-size:12.5px; letter-spacing:.2px;
+      color:var(--main-dark); font-weight:600;
+      background:var(--card); border:1px solid var(--line);
+      border-radius:999px; padding:6px 12px; white-space:nowrap;
+      overflow:hidden; text-overflow:ellipsis;
+    }
+    /* 프로필 사진 아래쪽(우하단) 달 장식 */
+    .moon{ position:absolute; bottom:4px; right:6px; z-index:3; font-size:30px; filter:drop-shadow(0 2px 6px rgba(0,0,0,.18)); animation:floaty 4.5s ease-in-out infinite; }
+
+    /* ── 프로필 헤더 (세로 중앙) ── */
+    .phead{ text-align:center; padding:8px 4px 4px; }
+    .ava-wrap{ position:relative; display:inline-block; }
+    @keyframes floaty{ 0%,100%{transform:translateY(0) rotate(-6deg)} 50%{transform:translateY(-6px) rotate(2deg)} }
+    .avatar{
+      width:148px; height:148px; border-radius:50%;
+      border:5px solid var(--card);
+      box-shadow:0 8px 26px rgba(120,20,35,.28), 0 0 0 2px var(--line);
+      background:linear-gradient(140deg, var(--main-light), var(--main));
+      display:flex; align-items:center; justify-content:center;
+      font-size:54px; overflow:hidden;
+    }
+    .avatar img{ width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; }
+    .pname{ font-family:var(--logo-font); color:var(--logo); font-size:42px; line-height:1.1; margin-top:14px; letter-spacing:1px; }
+    .pread{ font-size:13px; color:var(--text-soft); margin-top:6px; letter-spacing:.4px; font-weight:500; }
+    .counter{
+      display:inline-flex; align-items:center; gap:12px; margin-top:14px;
+      background:var(--card); border:1px solid var(--line);
+      border-radius:999px; padding:7px 18px; font-size:12.5px; color:var(--text-soft);
+    }
+    .counter b{ color:var(--main); font-weight:800; margin-right:5px; letter-spacing:.5px; }
+    .counter .bar{ width:1px; height:13px; background:var(--line); }
+    .bio{ margin:16px auto 4px; max-width:440px; font-size:14px; line-height:1.7; color:var(--text); }
+
+    /* ── 스탯 스트립 · 정적 값 ── */
+    .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:18px 0 4px; }
+    .stat{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:11px 6px; text-align:center; }
+    .stat .s-k{ display:block; font-size:10.5px; color:var(--text-soft); font-weight:700; letter-spacing:.5px; }
+    .stat .s-v{ display:block; font-size:12.5px; color:var(--main-dark); font-weight:700; margin-top:4px; line-height:1.3; }
+
+    /* ── 미니 내비 (알약) ── */
+    .mininav{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:18px 0 6px; padding:10px 8px; background:var(--card); border:1px solid var(--line); border-radius:16px; }
+    .mininav a{ flex:1 0 auto; text-align:center; padding:8px 10px; border-radius:999px; font-size:13.5px; font-weight:600; color:var(--text-soft); text-decoration:none; transition:all .18s ease; white-space:nowrap; }
+    .mininav a:hover{ color:var(--main-dark); background:var(--main-light); }
+    .mininav a.active{ color:#fff; background:var(--main); box-shadow:0 4px 12px rgba(145,35,46,.3); }
+    body.dark .mininav a.active{ color:#1a121c; }
+    .theme-switch{ flex:0 0 auto; margin-left:4px; position:relative; width:22px; height:33px; border-radius:999px; border:1.5px solid var(--line); background:var(--main-light); cursor:pointer; padding:0; transition:background .2s ease; }
+    .theme-switch .knob{ position:absolute; left:1.5px; top:1.5px; width:16px; height:16px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; font-size:9px; transition:top .2s ease,background .2s ease; box-shadow:0 1px 4px rgba(0,0,0,.2); }
+    body.dark .theme-switch .knob{ top:14px; background:#181018; }
+    /* 하단 메뉴 오른쪽 '문의' 글자 버튼 */
+    .nav-iq{ flex:0 0 auto; margin-left:4px; border:none; cursor:pointer; padding:8px 17px; border-radius:999px; font-family:var(--body); font-size:13.5px; font-weight:700; background:var(--main-light); color:var(--main-dark); transition:all .18s ease; white-space:nowrap; }
+    .nav-iq:hover{ background:var(--main); color:#fff; }
+    body.dark .nav-iq:hover{ color:#1a121c; }
+
+    /* ── NOW PLAYING 미니플레이어 (= 노래) ── */
+    .player{ margin:14px 0 6px; padding:16px 18px; background:linear-gradient(135deg, var(--main), var(--main-dark)); border-radius:18px; color:#fff; position:relative; overflow:hidden; box-shadow:0 10px 28px rgba(145,35,46,.34); }
+    .player::before{ content:'♪'; position:absolute; right:14px; top:8px; font-size:64px; opacity:.16; }
+    .np-eyebrow{ font-size:11px; font-weight:800; letter-spacing:1.5px; opacity:.9; }
+    .np-title{ font-family:var(--title-font); font-size:18px; font-weight:700; margin-top:6px; }
+    .np-sub{ font-size:12px; opacity:.85; margin-top:2px; }
+    .np-bar{ height:5px; border-radius:999px; background:rgba(255,255,255,.28); margin:13px 0 11px; overflow:hidden; }
+    .np-bar span{ display:block; width:38%; height:100%; background:#fff; border-radius:999px; }
+    .np-ctrl{ display:flex; align-items:center; gap:14px; }
+    .np-ctrl button{ border:none; background:rgba(255,255,255,.16); color:#fff; width:34px; height:34px; border-radius:50%; font-size:13px; cursor:pointer; transition:all .15s ease; }
+    .np-ctrl button:hover{ background:rgba(255,255,255,.32); }
+    .np-ctrl .np-play{ width:42px; height:42px; background:#fff; color:var(--main); font-size:15px; }
+    .np-ctrl .np-play:hover{ transform:scale(1.06); background:#fff; }
+
+    /* ── 공통 카드 ── */
+    .card{ background:var(--card); border:1px solid var(--line); border-radius:18px; padding:20px; margin-top:14px; position:relative; box-shadow:0 6px 18px rgba(120,30,40,.07); }
+    .card-head{ font-family:var(--title-font); font-size:19px; color:var(--main-dark); margin-bottom:14px; display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+
+    /* 정보 리스트(대시보드) */
+    .info-list{ display:flex; flex-direction:column; }
+    .info-row{ display:flex; align-items:flex-start; gap:12px; padding:11px 0; border-bottom:1px solid var(--line); }
+    .info-row:last-child{ border-bottom:none; }
+    .info-key{ width:78px; flex-shrink:0; font-size:12px; color:var(--text-soft); font-weight:700; padding-top:3px; }
+    .info-val{ flex:1; font-size:15.5px; font-weight:600; color:var(--main-dark); line-height:1.45; }
+    .tags{ display:flex; flex-wrap:wrap; gap:6px; }
+    .tag{ background:var(--main-light); color:var(--main-dark); border-radius:999px; padding:5px 14px; font-size:13.5px; font-weight:600; }
+    .tag:empty{ display:none; }
+
+    /* ── 방송 요일 (참고 이미지 스타일) ── */
+    .day-row{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-bottom:16px; }
+    .day{ min-width:42px; height:40px; padding:0 6px; border-radius:13px; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; background:var(--main-light); color:var(--text-soft); }
+    .day.on{ background:linear-gradient(150deg, var(--main), var(--main-dark)); color:#fff; box-shadow:0 6px 14px rgba(145,35,46,.32); }
+    body.dark .day.on{ color:#1a121c; }
+    .sched-list{ display:flex; flex-direction:column; gap:10px; }
+    .sched-item{ display:flex; align-items:center; gap:12px; background:var(--main-light); border:1px solid var(--line); border-radius:14px; padding:11px 13px; }
+    .sched-badge{ flex-shrink:0; background:linear-gradient(150deg, var(--main), var(--main-dark)); color:#fff; font-size:12.5px; font-weight:800; border-radius:10px; padding:7px 12px; white-space:nowrap; }
+    body.dark .sched-badge{ color:#1a121c; }
+    .sched-title{ font-size:14.5px; font-weight:600; color:var(--text); }
+
+    /* ── 다시보기 (SOOP VOD 인페이지 재생) ── */
+    .ovod-grid{ display:grid; grid-template-columns:1fr; gap:12px; }
+    .ovod-card{ border-radius:14px; overflow:hidden; border:1px solid var(--line); background:#000; }
+    .ovod-embed{ position:relative; width:100%; aspect-ratio:16/9; }
+    .ovod-embed iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+    .ovod-title{ padding:12px 14px; font-size:15px; font-weight:700; color:var(--text); text-align:center; background:var(--card); }
+    .vod-more{ display:block; text-align:right; margin-top:12px; font-size:13px; font-weight:700; color:var(--main); text-decoration:none; }
+    .vod-more:hover{ text-decoration:underline; }
+
+    /* 링크 */
+    .link-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px; }
+    .link-btn{ display:flex; align-items:center; justify-content:center; padding:12px; background:var(--main-light); color:var(--main-dark); border-radius:999px; text-decoration:none; font-size:14.5px; font-weight:700; transition:all .18s ease; }
+    .link-btn:hover{ background:var(--main); color:#fff; transform:translateY(-2px); }
+    body.dark .link-btn:hover{ color:#1a121c; }
+    .link-btn.wide{ grid-column:1 / -1; background:var(--main); color:#fff; }
+    body.dark .link-btn.wide{ color:#1a121c; }
+    .link-btn.wide:hover{ background:var(--main-dark); }
+
+    footer{ text-align:center; color:var(--text-soft); font-size:12px; line-height:1.7; margin-top:22px; padding-top:18px; border-top:1px solid var(--line); }
+
+    /* 문의 모달 (상단 ♥ 로 열림) */
+    .iq-ov{ position:absolute; left:0; right:0; background:rgba(40,12,18,.4); display:none; align-items:flex-start; justify-content:center; z-index:600; padding:16px; }
+    .iq-ov.show{ display:flex; }
+    .iq-modal{ background:var(--card); border-radius:22px; width:100%; max-width:420px; padding:24px; box-shadow:0 24px 60px rgba(80,20,30,.4); border:1px solid var(--line); }
+    .iq-title{ font-family:var(--title-font); font-size:19px; font-weight:700; color:var(--main-dark); margin-bottom:4px; }
+    .iq-desc{ font-size:13px; color:var(--text-soft); margin-bottom:16px; }
+    .iq-input{ width:100%; padding:12px 14px; border-radius:12px; border:1.5px solid var(--line); background:var(--bg); color:var(--text); font-size:14px; outline:none; margin-bottom:10px; font-family:inherit; }
+    .iq-input:focus{ border-color:var(--main); }
+    .iq-btns{ display:flex; gap:8px; margin-top:6px; }
+    .iq-btns button{ flex:1; padding:12px; border-radius:12px; border:none; font-size:14px; font-weight:700; cursor:pointer; }
+    .iq-send{ background:var(--main); color:#fff; }
+    body.dark .iq-send{ color:#1a121c; }
+    .iq-cancel{ background:var(--main-light); color:var(--main-dark); }
+
+    a:focus-visible, button:focus-visible{ outline:2px solid var(--main); outline-offset:2px; }
+
+    @keyframes staggerIn{ from{opacity:0; transform:translateY(16px)} to{opacity:1; transform:translateY(0)} }
+    .stagger > *{ opacity:0; animation:staggerIn .42s ease forwards; }
+    .stagger > *:nth-child(1){animation-delay:.04s}
+    .stagger > *:nth-child(2){animation-delay:.09s}
+    .stagger > *:nth-child(3){animation-delay:.14s}
+    .stagger > *:nth-child(4){animation-delay:.19s}
+    .stagger > *:nth-child(5){animation-delay:.24s}
+    .stagger > *:nth-child(6){animation-delay:.29s}
+    .stagger > *:nth-child(7){animation-delay:.34s}
+    .stagger > *:nth-child(8){animation-delay:.39s}
+    .stagger > *:nth-child(n+9){animation-delay:.44s}
+
+    @media (max-width:520px){
+      body{ padding:14px 9px 50px; }
+      .frame{ border-radius:20px; padding:0 13px 22px; }
+      .chrome{ margin:0 -13px 18px; }
+      .pname{ font-size:36px; }
+      .stats{ grid-template-columns:repeat(2,1fr); }
+      .mininav a{ flex:1 0 26%; font-size:13px; }
+    }
+    @media (prefers-reduced-motion:reduce){
+      .stagger > *{ opacity:1; animation:none; }
+      .moon{ animation:none; }
+      *{ transition:none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="frame stagger">
+
+  <!-- 레트로 브라우저 크롬 -->
+  <div class="chrome">
+    <span class="dots"><i></i><i></i><i></i></span>
+    <span class="addr">🔒 sooplive.com/apple100l</span>
+    <button class="theme-switch" id="themeSwitch" type="button" aria-label="다크모드 전환"><span class="knob" id="themeKnob">🌙</span></button>
+  </div>
+
+  <!-- 프로필 헤더 -->
+  <header class="phead">
+    <div class="ava-wrap">
+      <span class="moon">🌙</span>
+      <div class="avatar" id="avatarWrap">
+        <img id="avatarImg" src="https://profile.img.sooplive.co.kr/LOGO/ap/apple100l/apple100l.jpg" alt="한자리 프로필"
+             onerror="this.style.display='none'; document.getElementById('avatarEmoji').style.display='flex'">
+        <span id="avatarEmoji" style="display:none">🎵</span>
+      </div>
+    </div>
+    <!-- 큰 이름(로고)은 디자인용 정적 텍스트. 데이터로 쓰는 이름은 '한자리 프로필' 카드의 #info-name -->
+    <h1 class="pname">한자리</h1>
+    <p class="pread">HANJARI · @HANJARI___</p>
+    <div class="counter">
+      <span><b>TODAY</b> 1</span>
+      <span class="bar"></span>
+      <span><b>TOTAL</b> 2,025</span>
+    </div>
+    <p class="bio">“ 본인의 자리를 찾고 싶은, 한자리의 여행기 시작합니다 ” 👒</p>
+  </header>
+
+  <!-- 스탯 스트립 · 정적 값 -->
+  <div class="stats">
+    <div class="stat"><span class="s-k">데뷔</span><span class="s-v">2025.12.20</span></div>
+    <div class="stat"><span class="s-k">장르</span><span class="s-v">Indie</span></div>
+    <div class="stat"><span class="s-k">소속</span><span class="s-v">개인</span></div>
+    <div class="stat"><span class="s-k">팬닉</span><span class="s-v">의자 🪑</span></div>
+  </div>
+
+  <!-- 미니 내비 : 프로필 · 공지 · 일정 · 노래책 · 일기 · 업보 -->
+  <nav class="mininav">
+    <a href="index.html" class="active">프로필</a>
+    <a href="notice/">공지</a>
+    <a href="schedule/">일정</a>
+    <a href="https://meloming.com/channel/hanjari" target="_blank" rel="noopener">노래책</a>
+    <a href="diary/">일기</a>
+    <a href="work/">업보</a>
+    <button class="nav-iq" type="button" onclick="openInquiry()">문의</button>
+  </nav>
+
+  <!-- ① 한자리 프로필 -->
+  <section class="card">
+    <div class="card-head">📋 한자리 프로필</div>
+    <div class="info-list">
+      <div class="info-row"><span class="info-key">이름</span><span class="info-val" id="info-name">한자리 (HANJARI)</span></div>
+      <div class="info-row"><span class="info-key">한마디로</span><span class="info-val" id="info-catchphrase">내 자리를 찾는 중 👒</span></div>
+      <div class="info-row"><span class="info-key">성격</span>
+        <div class="tags" id="info-tags"><span class="tag">밝음</span><span class="tag">긍정적</span><span class="tag">잔잔함</span></div>
+      </div>
+      <div class="info-row"><span class="info-key">MBTI</span><span class="info-val" id="info-mbti">비밀 🌙</span></div>
+      <div class="info-row"><span class="info-key">팬닉</span><span class="info-val" id="info-fandom">의자 🪑</span></div>
+      <div class="info-row"><span class="info-key">생일·데뷔</span><span class="info-val" id="info-dates">12.20 · 2025.12.20 데뷔</span></div>
+    </div>
+  </section>
+
+  <!-- ② 노래 (▶ = 아래 다시보기 영상으로 이동) -->
+  <div class="player">
+    <div class="np-eyebrow">🎵 노래 · NOW PLAYING</div>
+    <div class="np-title">Colde (콜드) — 와르르 ♥</div>
+    <div class="np-sub">한자리 cover</div>
+    <div class="np-bar"><span></span></div>
+    <div class="np-ctrl">
+      <button aria-label="이전">◁</button>
+      <button class="np-play" id="songPlayBtn" aria-label="노래 재생" onclick="toggleSong()">▶</button>
+      <button aria-label="다음">▷</button>
+    </div>
+    <audio id="songAudio" preload="none"></audio>
+    <div id="ytFrame" aria-hidden="true" style="position:fixed;width:1px;height:1px;left:-9999px;top:-9999px;opacity:0;pointer-events:none"></div>
+  </div>
+
+  <!-- ③ 방송 요일 (참고 이미지 스타일) -->
+  <section class="card">
+    <div class="card-head">📅 방송 요일</div>
+    <div class="day-row">
+      <span class="day" id="day-0">일</span>
+      <span class="day" id="day-1">월</span>
+      <span class="day on" id="day-2">화</span>
+      <span class="day on" id="day-3">수</span>
+      <span class="day on" id="day-4">목</span>
+      <span class="day on" id="day-5">금</span>
+      <span class="day on" id="day-6">토</span>
+    </div>
+    <div class="sched-list">
+      <div class="sched-item"><span class="sched-badge">화~일</span><span class="sched-title">정규 방송 · 밤 10시</span></div>
+      <div class="sched-item"><span class="sched-badge">월</span><span class="sched-title">휴방 (쉬는 날)</span></div>
+    </div>
+  </section>
+
+  <!-- ④ 다시보기 : 페이지 안에서 바로 재생. DB에 VOD 넣으면 자동 교체 -->
+  <section class="card" id="songs-card">
+    <div class="card-head">🎬 다시보기</div>
+    <div class="ovod-grid" id="ovod-grid">
+      <div class="ovod-card">
+        <div class="ovod-embed">
+          <iframe src="https://vod.sooplive.co.kr/player/198332767/embed?showChat=false&autoPlay=false&mutePlay=false" frameborder="0" allowfullscreen scrolling="no"></iframe>
+        </div>
+        <div class="ovod-title">Colde (콜드) - 와르르 ♥ · 한자리 cover</div>
+      </div>
+    </div>
+    <a class="vod-more" href="https://www.sooplive.com/station/apple100l" target="_blank" rel="noopener">SOOP에서 더 보기 →</a>
+  </section>
+
+  <!-- ⑤ 링크 -->
+  <section class="card">
+    <div class="card-head">🔗 한자리 링크</div>
+    <div class="link-grid">
+      <a id="link-soop" href="https://www.sooplive.com/station/apple100l" class="link-btn wide" target="_blank" rel="noopener">SOOP 방송국</a>
+      <a id="link-youtube" href="https://www.youtube.com/@HANJARI_0" class="link-btn" target="_blank" rel="noopener">YouTube</a>
+      <!-- link-fancim 칸을 'X(트위터)'로 사용 (id는 유지) -->
+      <a id="link-fancim" href="https://x.com/HANJARI___" class="link-btn" target="_blank" rel="noopener">X (트위터)</a>
+      <a id="link-fancafe" href="https://cafe.naver.com/soophanjari" class="link-btn" target="_blank" rel="noopener">네이버 카페</a>
+    </div>
+  </section>
+
+  <footer>© 2026 HANJARI Official.<br>비즈니스 문의 · jh5200491@gmail.com</footer>
+
+</div>
+
+<!-- 문의 모달 (상단 ♥ 로 열림) -->
+<div class="iq-ov" id="iq-ov" onclick="if(event.target===this)closeInquiry()">
+  <div class="iq-modal">
+    <div class="iq-title">✉️ 한자리에게</div>
+    <div class="iq-desc">한자리에게 하고 싶은 말을 남겨주세요 🌙</div>
+    <input class="iq-input" id="iq-nick" placeholder="닉네임 (필수)">
+    <textarea class="iq-input" id="iq-msg" rows="4" placeholder="문의 내용을 적어주세요"></textarea>
+    <div class="iq-btns">
+      <button class="iq-cancel" onclick="closeInquiry()">취소</button>
+      <button class="iq-send" onclick="sendInquiry()">보내기 ♥</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase.js"></script>
+<script>
+  const defaults = {
+    'soop-id': 'apple100l',
+    avatar: '',
+    'song-audio': '',   // ← 직접 부른 커버 mp3 URL 넣으면 ▶로 소리만 재생됨
+    'info-name': '한자리 (HANJARI)',
+    'info-catchphrase': '내 자리를 찾는 중 👒',
+    'info-tags': '밝음,긍정적,잔잔함',
+    'info-mbti': '비밀 🌙',
+    'info-fandom': '의자 🪑',
+    'info-dates': '12.20 · 2025.12.20 데뷔',
+    'link-youtube':'https://www.youtube.com/@HANJARI_0',
+    'link-fancafe':'https://cafe.naver.com/soophanjari',
+    'link-fancim':'https://x.com/HANJARI___',
+    'link-soop':'https://www.sooplive.com/station/apple100l',
+    'link-mfancim':'#', 'link-heart':'#',
+    days: '0,2,3,4,5,6',
+  };
+
+  async function load() {
+    let saved = {};
+    try {
+      const { data, error } = await db.from('profile').select('data').eq('id', 1);
+      if (data && data.length > 0 && data[0].data) saved = data[0].data;
+      if (error) console.log('profile error:', error);
+    } catch(e) { console.log('profile load error', e); }
+    const d = { ...defaults, ...saved };
+
+    function soopAvatar(id) {
+      if (!id) return null;
+      id = id.trim().toLowerCase();
+      if (id.length < 2) return null;
+      return `https://profile.img.sooplive.co.kr/LOGO/${id.slice(0,2)}/${id}/${id}.jpg`;
+    }
+    const avatarUrl = d.avatar || soopAvatar(d['soop-id']) || await getStorageAvatar();
+    if (avatarUrl) {
+      const img = document.getElementById('avatarImg');
+      const emoji = document.getElementById('avatarEmoji');
+      if (img) { img.src = avatarUrl; img.style.display = 'block'; }
+      if (emoji) emoji.style.display = 'none';
+    }
+
+    ['info-name','info-catchphrase','info-mbti','info-fandom','info-dates'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = d[id];
+    });
+
+    const tagsEl = document.getElementById('info-tags');
+    if (tagsEl) {
+      tagsEl.innerHTML = (d['info-tags']||'').split(',').filter(t=>t.trim()).map(t =>
+        `<span class="tag">${t.trim()}</span>`
+      ).join('');
+    }
+
+    ['youtube','fancafe','fancim','soop','mfancim','heart'].forEach(key => {
+      const el = document.getElementById('link-' + key);
+      if (el && d['link-' + key] && d['link-' + key] !== '#') el.href = d['link-' + key];
+    });
+
+    const activeDays = (d.days || '').split(',').map(x => x.trim());
+    for (let i = 0; i <= 6; i++) {
+      const chip = document.getElementById('day-' + i);
+      if (chip) chip.className = 'day' + (activeDays.includes(String(i)) ? ' on' : '');
+    }
+
+    // 노래 음원 (mp3 직접주소=소리만 / 유튜브=영상 숨기고 소리만)
+    setSongSource(d['song-audio']);
+  }
+  async function getStorageAvatar() {
+    try {
+      const { data } = db.storage.from('hanjari').getPublicUrl('profile.jpg');
+      return data?.publicUrl || null;
+    } catch { return null; }
+  }
+
+  // 🎬 다시보기 (SOOP VOD · original_songs 테이블 재사용). DB에 있으면 기본 영상 대신 그걸 표시
+  async function loadOriginalSongs() {
+    const grid = document.getElementById('ovod-grid');
+    if (!grid) return;
+    let list = [];
+    try { list = await fetchAll('original_songs', { order: 'id', asc: false }); } catch(e) {}
+    if (!list || !list.length) return; // 비어 있으면 HTML의 기본 영상 유지
+    grid.innerHTML = list.map(s => {
+      const vid = (s.vod_id || '').trim();
+      return `<div class="ovod-card">
+        <div class="ovod-embed">
+          <iframe src="https://vod.sooplive.co.kr/player/${vid}/embed?showChat=false&autoPlay=false&mutePlay=false" frameborder="0" allowfullscreen scrolling="no"></iframe>
+        </div>
+        <div class="ovod-title">${(s.title||'').replace(/</g,'&lt;')}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // 🎵 노래 재생: (1) mp3 등 직접 오디오주소=소리만 / (2) 유튜브=영상 숨기고 소리만 / (3) 둘 다 아니면 다시보기로 이동
+  let songMode = null;            // 'audio' | 'yt' | null
+  let ytPlayer = null, ytReady = false, ytWantToggle = false, ytTimer = null;
+
+  function isYouTube(u){ return /(?:youtube\.com\/(?:watch\?|shorts\/|embed\/|live\/)|youtu\.be\/)/i.test(u); }
+  function ytId(u){ const m = (u||'').match(/(?:v=|\/shorts\/|\/embed\/|\/live\/|youtu\.be\/)([\w-]{11})/); return m ? m[1] : ''; }
+
+  function setSongSource(raw){
+    raw = (raw||'').trim(); songMode = null;
+    if (!raw) return;
+    if (isYouTube(raw)) { const id = ytId(raw); if (id){ songMode='yt'; setupYT(id); } }
+    else { songMode='audio'; const a=document.getElementById('songAudio'); if(a) a.src=raw; }
+  }
+  function setupYT(id){
+    window.onYouTubeIframeAPIReady = function(){
+      ytPlayer = new YT.Player('ytFrame', {
+        videoId: id,
+        playerVars: { playsinline:1, controls:0, disablekb:1, rel:0 },
+        events: {
+          onReady: function(){ ytReady = true; if (ytWantToggle){ ytWantToggle=false; ytPlayer.playVideo(); } },
+          onStateChange: function(e){
+            const btn=document.getElementById('songPlayBtn'); const bar=document.querySelector('.np-bar span');
+            if (e.data===1){ if(btn) btn.textContent='⏸'; startYTProgress(); }
+            else if (e.data===2){ if(btn) btn.textContent='▶'; stopYTProgress(); }
+            else if (e.data===0){ if(btn) btn.textContent='▶'; stopYTProgress(); if(bar) bar.style.width='0%'; }
+          }
+        }
+      });
+    };
+    if (window.YT && window.YT.Player) window.onYouTubeIframeAPIReady();
+    else if (!document.getElementById('yt-api')){ const s=document.createElement('script'); s.id='yt-api'; s.src='https://www.youtube.com/iframe_api'; document.head.appendChild(s); }
+  }
+  function startYTProgress(){ stopYTProgress(); const bar=document.querySelector('.np-bar span'); ytTimer=setInterval(function(){ if(ytPlayer&&ytPlayer.getDuration){ const d=ytPlayer.getDuration(), c=ytPlayer.getCurrentTime(); if(bar&&d) bar.style.width=(c/d*100)+'%'; } },500); }
+  function stopYTProgress(){ if(ytTimer){ clearInterval(ytTimer); ytTimer=null; } }
+
+  function toggleSong(){
+    if (songMode==='audio'){ const a=document.getElementById('songAudio'); if(a.paused) a.play().catch(()=>{}); else a.pause(); }
+    else if (songMode==='yt'){ if(!ytReady){ ytWantToggle=true; return; } const st=ytPlayer.getPlayerState && ytPlayer.getPlayerState(); if(st===1) ytPlayer.pauseVideo(); else ytPlayer.playVideo(); }
+    else { const c=document.getElementById('songs-card'); if(c) c.scrollIntoView({behavior:'smooth',block:'center'}); }
+  }
+  (function(){
+    const a=document.getElementById('songAudio'); if(!a) return;
+    const btn=document.getElementById('songPlayBtn'); const bar=document.querySelector('.np-bar span');
+    a.addEventListener('play',  ()=>{ if(btn) btn.textContent='⏸'; });
+    a.addEventListener('pause', ()=>{ if(btn) btn.textContent='▶'; });
+    a.addEventListener('ended', ()=>{ if(btn) btn.textContent='▶'; if(bar) bar.style.width='0%'; });
+    a.addEventListener('timeupdate', ()=>{ if(bar && a.duration) bar.style.width=(a.currentTime/a.duration*100)+'%'; });
+  })();
+
+  load();
+  loadOriginalSongs();
+
+  function openInquiry(){
+    const ov = document.getElementById('iq-ov');
+    const e = window.event;
+    let y = 80;
+    if (e) { y = (e.pageY != null ? e.pageY : (e.clientY||0)); }
+    ov.style.top = Math.max(10, y - 60) + 'px';
+    ov.classList.add('show');
+  }
+  function closeInquiry(){ document.getElementById('iq-ov').classList.remove('show'); }
+  async function sendInquiry(){
+    const nick = document.getElementById('iq-nick').value.trim();
+    if(!nick){ alert('닉네임을 적어주세요'); return; }
+    const msg = document.getElementById('iq-msg').value.trim();
+    if(!msg){ alert('문의 내용을 적어주세요'); return; }
+    const ok = await insertRow('inquiries', { nickname: nick, message: msg });
+    if(ok){
+      alert('문의가 전송됐어요! ♥');
+      document.getElementById('iq-nick').value=''; document.getElementById('iq-msg').value='';
+      closeInquiry();
+    } else {
+      alert('전송 실패 ㅠㅠ 잠시 후 다시 시도해주세요');
+    }
+  }
+
+  if (window.parent !== window && typeof initIframeResize === 'function') {
+    window.addEventListener('load', initIframeResize);
+    setTimeout(initIframeResize, 800);
+  }
+</script>
+<script>
+(function(){
+  if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+  var sw = document.getElementById('themeSwitch');
+  var knob = document.getElementById('themeKnob');
+  function refresh(){ if(knob) knob.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙'; }
+  if (sw) sw.addEventListener('click', function(){
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    refresh();
+  });
+  refresh();
+})();
+</script>
+</body>
+</html>

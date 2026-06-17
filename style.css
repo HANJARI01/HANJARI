@@ -1,0 +1,298 @@
+/* =============================================
+   한자리 팬페이지 — 서브페이지 공용 디자인 시스템
+   (메인 index.html 의 :root 색과 동일하게 맞춤)
+   ============================================= */
+
+:root {
+  /* ⬇⬇ 색 바꿀 때 이 5개 + --logo 만 (메인 index.html :root 와 동일하게) ⬇⬇ */
+  --main:        #91232e;
+  --main-dark:   #6f1820;
+  --main-deep:   #57131a;
+  --main-light:  #f5e4e5;
+  --bg:          #fdf3f3;
+  --card:        #fffafb;
+  --logo:        #91232e;
+  --text:        #3d2d30;
+  --text-soft:   #ab8d92;
+  --text-mid:    #7a5c61;
+  --white:       #fffafb;
+
+  /* 디자인 보조 (메인과 동일한 밤하늘 무드) */
+  --line:  rgba(145,35,46,.16);
+  --star:  rgba(145,35,46,.10);
+  --grad:  linear-gradient(180deg,#fbeef0 0%, #fdf6f3 46%, #fbf2ee 100%);
+
+  --katuri:     'Jua','Gowun Dodum','Noto Sans KR',sans-serif;     /* 로고(둥글둥글) */
+  --title-font: 'Gowun Dodum','Pretendard','Noto Sans KR',sans-serif; /* 제목 */
+  --body:       'Pretendard','Noto Sans KR',sans-serif;            /* 본문(부드러움) */
+
+  --radius-lg:   20px;
+  --radius-md:   16px;
+  --radius-sm:   12px;
+  --shadow:      0 6px 18px rgba(120,30,40,0.10);
+  --shadow-hover:0 10px 30px rgba(120,30,40,0.18);
+  --transition:  0.2s ease;
+  --page-width:  600px; /* 메인과 같은 세로형 폭 */
+}
+
+/* ── 다크모드 = 밤하늘 ── */
+body.dark {
+  --main:        #e58a93;
+  --main-dark:   #f2b3ba;
+  --main-deep:   #f6c9cf;
+  --main-light:  #3a242a;
+  --bg:          #161019;
+  --card:        #221b24;
+  --logo:        #f2b3ba;
+  --text:        #efe2e4;
+  --text-soft:   #b89aa0;
+  --text-mid:    #b89aa0;
+  --white:       #221b24;
+  --line:  rgba(229,138,147,.20);
+  --star:  rgba(255,250,230,.55);
+  --grad:  linear-gradient(180deg,#1b1320 0%, #14101a 60%, #0f0c14 100%);
+  --shadow:      0 6px 18px rgba(0,0,0,0.45);
+  --shadow-hover:0 10px 30px rgba(0,0,0,0.6);
+}
+body { transition: background var(--transition), color var(--transition); }
+
+/* ── 다크모드 세로 토글 ── */
+.theme-switch {
+  flex-shrink: 0; margin-left: 7px;
+  position: relative;
+  width: 22px; height: 33px; border-radius: 999px;
+  border: 1.5px solid var(--line); background: var(--main-light);
+  cursor: pointer; padding: 0; transition: background var(--transition);
+}
+.theme-switch .knob {
+  position: absolute; left: 1.5px; top: 1.5px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #fff; display: flex; align-items: center; justify-content: center;
+  font-size: 9px; transition: top var(--transition), background var(--transition);
+  box-shadow: 0 1px 4px rgba(0,0,0,.2);
+}
+body.dark .theme-switch .knob { top: 14px; background: #181018; }
+
+/* 다크모드 고정색 보정 */
+body.dark .input { background: var(--card); color: var(--text); }
+body.dark .page-btn { background: var(--card); color: var(--text); }
+body.dark .badge-white { background: var(--card); }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--body);
+  background: var(--grad) fixed, var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── 배경 별빛 (밤하늘 모티프) ── */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    radial-gradient(1.6px 1.6px at 12% 18%, var(--star) 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 78% 12%, var(--star) 50%, transparent 51%),
+    radial-gradient(2px 2px   at 35% 70%, var(--star) 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 88% 64%, var(--star) 50%, transparent 51%),
+    radial-gradient(1.6px 1.6px at 60% 38%, var(--star) 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 22% 88%, var(--star) 50%, transparent 51%),
+    radial-gradient(1.6px 1.6px at 92% 92%, var(--star) 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 50% 6%,  var(--star) 50%, transparent 51%);
+}
+body.dark::before { opacity: 1; }
+
+/* ── 상단 네비게이션 (메인 알약 느낌) ── */
+.nav {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(253,243,243,0.82);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border-bottom: 1.5px solid var(--line);
+  display: flex; justify-content: center;
+}
+body.dark .nav { background: rgba(22,16,25,0.82); }
+.nav-inner {
+  display: flex; align-items: center;
+  max-width: var(--page-width); width: 100%;
+  padding: 8px 12px; gap: 4px; flex-wrap: wrap;
+}
+a.nav-logo {
+  font-family: var(--katuri);
+  font-size: 26px !important; color: var(--logo) !important;
+  margin-right: auto;
+  padding: 6px 8px; line-height: 1;
+  text-decoration: none; white-space: nowrap; flex-shrink: 0;
+  letter-spacing: 1px;
+}
+.nav a {
+  padding: 8px 12px; border-radius: 999px;
+  font-size: 14px; font-weight: 600;
+  color: var(--text-soft);
+  text-decoration: none;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.nav a:hover { color: var(--main-dark); background: var(--main-light); }
+.nav a.active { color: #fff; background: var(--main); box-shadow: 0 4px 12px rgba(145,35,46,.3); }
+body.dark .nav a.active { color: #1a121c; }
+
+/* ── 본문 컨테이너 ── */
+.container {
+  position: relative; z-index: 1;
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 26px 16px 70px;
+  display: flex; flex-direction: column;
+  gap: 14px;
+}
+
+/* ── 공통 카드 ── */
+.card {
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  padding: 22px;
+  transition: box-shadow var(--transition);
+}
+.card:hover { box-shadow: var(--shadow-hover); }
+
+.card-title {
+  font-size: 12px; font-weight: 800;
+  color: var(--main);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.card-title::before {
+  content: ''; display: block; width: 3px; height: 14px;
+  background: var(--main); border-radius: 999px; flex-shrink: 0;
+}
+
+/* ── 섹션 헤더 ── */
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.section-header h2 { font-size: 16px; font-weight: 700; color: var(--main-dark); }
+
+/* ── 버튼 ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px 20px; border-radius: 999px;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; border: none; text-decoration: none;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+.btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.btn-primary { background: var(--main); color: #fff; }
+body.dark .btn-primary { color: #1a121c; }
+.btn-primary:hover { background: var(--main-dark); }
+.btn-outline { background: transparent; border: 1.5px solid var(--line); color: var(--main-dark); }
+.btn-outline:hover { background: var(--main-light); }
+.btn-danger { background: #ffe0e0; color: #e0405a; border: none; }
+.btn-danger:hover { background: #ffc5c5; }
+
+/* ── 배지/태그 ── */
+.badge { display: inline-block; padding: 4px 13px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+.badge-pink { background: var(--main-light); color: var(--main-dark); }
+.badge-white { background: #fff; color: var(--main-dark); border: 1px solid var(--line); }
+
+/* ── 테이블 ── */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th {
+  padding: 11px 12px; background: var(--main-light);
+  color: var(--main-deep); font-weight: 700;
+  text-align: left; font-size: 12px; letter-spacing: 0.05em;
+}
+th:first-child { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+th:last-child  { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+td { padding: 12px; border-bottom: 1px solid var(--line); color: var(--text-mid); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--main-light); }
+
+/* ── 폼 인풋 ── */
+.input {
+  width: 100%; padding: 11px 14px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--line);
+  font-size: 14px; font-family: inherit; outline: none; background: #fff;
+  transition: border-color var(--transition); color: var(--text);
+}
+.input:focus { border-color: var(--main); }
+.input-label {
+  display: block; font-size: 11px; font-weight: 700;
+  color: var(--main); letter-spacing: 0.08em;
+  margin-bottom: 5px; text-transform: uppercase;
+}
+.form-field { margin-bottom: 12px; }
+
+/* ── 토스트 ── */
+.toast {
+  position: fixed; bottom: 30px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--main-dark); color: #fff;
+  padding: 12px 28px; border-radius: 999px;
+  font-size: 13px; font-weight: 700;
+  opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 999; white-space: nowrap;
+}
+body.dark .toast { color: #1a121c; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── 빈 상태 ── */
+.empty { text-align: center; padding: 40px 20px; color: var(--text-soft); font-size: 14px; }
+.empty-icon { font-size: 36px; margin-bottom: 10px; }
+
+/* ── 페이지 타이틀 ── */
+.page-title {
+  font-family: var(--title-font);
+  font-size: 30px; color: var(--main-dark);
+  text-align: center; margin-bottom: 4px; letter-spacing: .5px;
+}
+.page-subtitle { font-size: 13px; color: var(--text-soft); text-align: center; margin-bottom: 8px; }
+
+/* ── 로딩 스피너 ── */
+.spinner {
+  width: 28px; height: 28px;
+  border: 3px solid var(--main-light); border-top-color: var(--main);
+  border-radius: 50%; animation: spin 0.8s linear infinite; margin: 30px auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* 스태거 애니메이션 */
+@keyframes staggerIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.stagger > * { opacity:0; animation: staggerIn .42s ease forwards; }
+.stagger > *:nth-child(1){animation-delay:.04s}
+.stagger > *:nth-child(2){animation-delay:.09s}
+.stagger > *:nth-child(3){animation-delay:.14s}
+.stagger > *:nth-child(4){animation-delay:.19s}
+.stagger > *:nth-child(5){animation-delay:.24s}
+.stagger > *:nth-child(6){animation-delay:.29s}
+.stagger > *:nth-child(n+7){animation-delay:.34s}
+
+/* ── 페이지네이션 ── */
+.pagination { display: flex; justify-content: center; gap: 6px; margin-top: 16px; }
+.page-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1.5px solid var(--line); background: #fff; color: var(--text-mid);
+  font-size: 13px; font-weight: 700; cursor: pointer; transition: all var(--transition);
+  display: flex; align-items: center; justify-content: center;
+}
+.page-btn:hover, .page-btn.active { background: var(--main); color: #fff; border-color: var(--main); }
+body.dark .page-btn:hover, body.dark .page-btn.active { color: #1a121c; }
+
+/* ── 푸터 ── */
+footer { text-align: center; padding: 24px; font-size: 12px; color: var(--text-soft); position: relative; z-index: 1; }
+
+/* ── 반응형 ── */
+@media (max-width: 560px) {
+  a.nav-logo { font-size: 23px !important; padding: 6px 6px; }
+  .nav a { padding: 7px 9px; font-size: 13px; }
+  .container { padding: 18px 11px 56px; }
+  .card { padding: 18px 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stagger > * { opacity: 1; animation: none; }
+  * { transition: none !important; }
+}
