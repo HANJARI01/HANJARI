@@ -44,7 +44,7 @@
       --logo-font: 'Jua','Gowun Dodum','Noto Sans KR',sans-serif;
       --title-font:'Gowun Dodum','Pretendard','Noto Sans KR',sans-serif;
       --body:      'Pretendard','Noto Sans KR',sans-serif;
-      --frame-w: 640px;   /* 세로형 폭 */
+      --frame-w: 1200px;  /* 폭: 임베드 시 게시글(회색선) 너비에 맞춰 꽉 차게 */
     }
     body.dark{
       --main:       #e58a93;
@@ -65,7 +65,7 @@
     body{
       font-family:var(--body); color:var(--text);
       background:var(--grad) fixed, var(--bg);
-      min-height:100vh; padding:24px 14px 64px;
+      min-height:100vh; padding:14px 8px 44px;
       position:relative; overflow-x:hidden;
       transition:background .25s ease,color .25s ease;
       -webkit-font-smoothing:antialiased;
