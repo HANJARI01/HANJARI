@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
+  <script>try{if(window.top!==window.self)document.documentElement.classList.add('embedded');}catch(e){document.documentElement.classList.add('embedded');}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>한자리</title>
   <link rel="icon" type="image/jpeg" href="https://profile.img.sooplive.co.kr/LOGO/ap/apple100l/apple100l.jpg">
@@ -44,7 +45,7 @@
       --logo-font: 'Jua','Gowun Dodum','Noto Sans KR',sans-serif;
       --title-font:'Gowun Dodum','Pretendard','Noto Sans KR',sans-serif;
       --body:      'Pretendard','Noto Sans KR',sans-serif;
-      --frame-w: 1200px;  /* 폭: 임베드 시 게시글(회색선) 너비에 맞춰 꽉 차게 */
+      --frame-w: 600px;   /* 직접 사이트 기본 폭 (좁게·가운데) — 임베드 시에만 넓어짐 */
     }
     body.dark{
       --main:       #e58a93;
@@ -65,11 +66,14 @@
     body{
       font-family:var(--body); color:var(--text);
       background:var(--grad) fixed, var(--bg);
-      min-height:100vh; padding:14px 8px 44px;
+      min-height:100vh; padding:24px 14px 64px;
       position:relative; overflow-x:hidden;
       transition:background .25s ease,color .25s ease;
       -webkit-font-smoothing:antialiased;
     }
+    /* SOOP 등 iframe 임베드일 때만 폭을 꽉 차게 (직접 사이트는 위 좁은 설정 그대로) */
+    html.embedded body{ padding:14px 8px 44px; }
+    html.embedded .frame{ max-width:1200px; }
     body::before{
       content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
       background-image:
