@@ -92,7 +92,11 @@
       <div class="form-field"><label class="input-label">제목 옆 한줄 텍스트</label><input class="input" id="f-head-sub" type="text"></div>
       <div class="form-field"><label class="input-label">오늘의 한마디 (줄바꿈=엔터)</label><textarea class="input" id="f-quote" rows="3"></textarea></div>
       <div class="form-field"><label class="input-label">하고픈 말</label><textarea class="input" id="f-msg" rows="3"></textarea></div>
-      <div class="form-field"><label class="input-label">🎵 노래 음원 (mp3 직접주소 또는 유튜브 링크 · 메인 ▶로 소리만 재생)</label><input class="input" id="f-song-audio" type="url" placeholder="mp3 주소 또는 https://youtu.be/..."></div>
+      <div class="form-field"><label class="input-label">🎵 노래 제목 (플레이어 표시)</label><input class="input" id="f-song-title" type="text" placeholder="Colde (콜드) — 와르르 ♥"></div>
+      <div class="form-field"><label class="input-label">🎵 노래 부제</label><input class="input" id="f-song-sub" type="text" placeholder="한자리 cover"></div>
+      <div class="form-field"><label class="input-label">🎵 노래 음원 (유튜브 링크 추천 · mp3 직접주소도 가능 · ▶로 소리만 재생)</label><input class="input" id="f-song-audio" type="url" placeholder="https://youtu.be/... 또는 audio/cover.mp3"></div>
+      <div class="form-field"><label class="input-label">👀 TODAY 방문수 (숲 '오늘 방문 수' 직접 입력)</label><input class="input" id="f-visit-today" type="text" placeholder="74"></div>
+      <div class="form-field"><label class="input-label">👀 TOTAL 방문수 (숲 '누적 방문 수' 직접 입력)</label><input class="input" id="f-visit-total" type="text" placeholder="330,381"></div>
       <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
     </div>
     <div class="card">
@@ -400,7 +404,7 @@
   const ADMIN_PASSWORD = '1234';
 
   const profileKeys = [
-    'head-sub','quote','msg','soop-id','song-audio',
+    'head-sub','quote','msg','soop-id','song-audio','song-title','song-sub','visit-today','visit-total',
     'info-name','info-catchphrase','info-tags','info-mbti','info-fandom','info-dates',
     'like1','like2','like3','like4','dislike1','dislike2',
     'tmi-food','tmi-song','tmi-book','days',

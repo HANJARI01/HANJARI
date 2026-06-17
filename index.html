@@ -44,7 +44,7 @@
       --logo-font: 'Jua','Gowun Dodum','Noto Sans KR',sans-serif;
       --title-font:'Gowun Dodum','Pretendard','Noto Sans KR',sans-serif;
       --body:      'Pretendard','Noto Sans KR',sans-serif;
-      --frame-w: 600px;   /* 세로형 폭 */
+      --frame-w: 640px;   /* 세로형 폭 */
     }
     body.dark{
       --main:       #e58a93;
@@ -292,9 +292,9 @@
     <h1 class="pname">한자리</h1>
     <p class="pread">HANJARI · @HANJARI___</p>
     <div class="counter">
-      <span><b>TODAY</b> 1</span>
+      <span><b>TODAY</b> <span id="cntToday">1</span></span>
       <span class="bar"></span>
-      <span><b>TOTAL</b> 2,025</span>
+      <span><b>TOTAL</b> <span id="cntTotal">2,025</span></span>
     </div>
     <p class="bio">“ 본인의 자리를 찾고 싶은, 한자리의 여행기 시작합니다 ” 👒</p>
   </header>
@@ -336,8 +336,8 @@
   <!-- ② 노래 (▶ = 아래 다시보기 영상으로 이동) -->
   <div class="player">
     <div class="np-eyebrow">🎵 노래 · NOW PLAYING</div>
-    <div class="np-title">Colde (콜드) — 와르르 ♥</div>
-    <div class="np-sub">한자리 cover</div>
+    <div class="np-title" id="npTitle">Colde (콜드) — 와르르 ♥</div>
+    <div class="np-sub" id="npSub">한자리 cover</div>
     <div class="np-bar"><span></span></div>
     <div class="np-ctrl">
       <button aria-label="이전">◁</button>
@@ -416,7 +416,11 @@
   const defaults = {
     'soop-id': 'apple100l',
     avatar: '',
-    'song-audio': '',   // ← 직접 부른 커버 mp3 URL 넣으면 ▶로 소리만 재생됨
+    'song-audio': '',   // 유튜브 링크 또는 mp3 직접주소 → ▶로 소리만 재생
+    'song-title': 'Colde (콜드) — 와르르 ♥',
+    'song-sub': '한자리 cover',
+    'visit-today': '74',
+    'visit-total': '330,381',
     'info-name': '한자리 (HANJARI)',
     'info-catchphrase': '내 자리를 찾는 중 👒',
     'info-tags': '밝음,긍정적,잔잔함',
@@ -477,7 +481,13 @@
       if (chip) chip.className = 'day' + (activeDays.includes(String(i)) ? ' on' : '');
     }
 
-    // 노래 음원 (mp3 직접주소=소리만 / 유튜브=영상 숨기고 소리만)
+    // 노래 플레이어 제목/부제 (관리자에서 변경)
+    const nt=document.getElementById('npTitle'); if(nt && (d['song-title']||'').trim()) nt.textContent=d['song-title'].trim();
+    const ns=document.getElementById('npSub');   if(ns && (d['song-sub']||'').trim())   ns.textContent=d['song-sub'].trim();
+    // 방문수 (관리자에서 숲 숫자 입력 → 표시)
+    const ctod=document.getElementById('cntToday'); if(ctod && (d['visit-today']||'').trim()) ctod.textContent=d['visit-today'].trim();
+    const ctot=document.getElementById('cntTotal'); if(ctot && (d['visit-total']||'').trim()) ctot.textContent=d['visit-total'].trim();
+    // 노래 음원 (mp3/직접주소=소리만 / 유튜브=영상 숨기고 소리만 / 그 외=새 탭)
     setSongSource(d['song-audio']);
   }
   async function getStorageAvatar() {
@@ -507,16 +517,23 @@
 
   // 🎵 노래 재생: (1) mp3 등 직접 오디오주소=소리만 / (2) 유튜브=영상 숨기고 소리만 / (3) 둘 다 아니면 다시보기로 이동
   let songMode = null;            // 'audio' | 'yt' | null
-  let ytPlayer = null, ytReady = false, ytWantToggle = false, ytTimer = null;
+  let ytPlayer = null, ytReady = false, ytWantToggle = false, ytTimer = null, songLink = '';
 
   function isYouTube(u){ return /(?:youtube\.com\/(?:watch\?|shorts\/|embed\/|live\/)|youtu\.be\/)/i.test(u); }
   function ytId(u){ const m = (u||'').match(/(?:v=|\/shorts\/|\/embed\/|\/live\/|youtu\.be\/)([\w-]{11})/); return m ? m[1] : ''; }
 
+  function songKind(u){
+    if (isYouTube(u)) return 'yt';
+    if (/\.(mp3|m4a|aac|ogg|oga|opus|wav|flac)(\?.*)?(#.*)?$/i.test(u)) return 'audio';
+    return 'link';   // SOOP 클립·멜로밍 등 일반 페이지 → ▶ 누르면 새 탭으로 열기
+  }
   function setSongSource(raw){
-    raw = (raw||'').trim(); songMode = null;
+    raw = (raw||'').trim(); songMode = null; songLink = '';
     if (!raw) return;
-    if (isYouTube(raw)) { const id = ytId(raw); if (id){ songMode='yt'; setupYT(id); } }
-    else { songMode='audio'; const a=document.getElementById('songAudio'); if(a) a.src=raw; }
+    const k = songKind(raw);
+    if (k==='yt'){ const id = ytId(raw); if (id){ songMode='yt'; setupYT(id); } else { songMode='link'; songLink=raw; } }
+    else if (k==='audio'){ songMode='audio'; const a=document.getElementById('songAudio'); if(a) a.src=raw; }
+    else { songMode='link'; songLink=raw; }
   }
   function setupYT(id){
     window.onYouTubeIframeAPIReady = function(){
@@ -543,6 +560,7 @@
   function toggleSong(){
     if (songMode==='audio'){ const a=document.getElementById('songAudio'); if(a.paused) a.play().catch(()=>{}); else a.pause(); }
     else if (songMode==='yt'){ if(!ytReady){ ytWantToggle=true; return; } const st=ytPlayer.getPlayerState && ytPlayer.getPlayerState(); if(st===1) ytPlayer.pauseVideo(); else ytPlayer.playVideo(); }
+    else if (songMode==='link'){ window.open(songLink, '_blank', 'noopener'); }
     else { const c=document.getElementById('songs-card'); if(c) c.scrollIntoView({behavior:'smooth',block:'center'}); }
   }
   (function(){
