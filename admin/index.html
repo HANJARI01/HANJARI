@@ -330,7 +330,7 @@
           </select>
         </div>
         <div class="form-field full"><label class="input-label">내용</label><textarea class="input" id="diary-content" rows="5"></textarea></div>
-        <div class="form-field full"><label class="input-label">이미지 (여러 장 선택 가능 · 자동 압축됨)</label><input type="file" id="diary-image" accept="image/*" class="input" multiple></div>
+        <div class="form-field full"><label class="input-label">이미지 링크 (URL) · 여러 장이면 줄바꿈으로 여러 개</label><textarea class="input" id="diary-imgs" rows="3" placeholder="https://stimg.sooplive.com/.../1.png&#10;https://stimg.sooplive.com/.../2.png  ← 이미지 주소를 직접 붙여넣기 (한 줄에 하나)"></textarea></div>
         <div class="form-field"><label class="input-label">날짜</label><input class="input" id="diary-date" type="date"></div>
         <div class="form-field" style="display:flex;align-items:flex-end"><button class="btn btn-primary" onclick="addDiary()">+ 추가</button></div>
       </div>
@@ -717,19 +717,12 @@
   async function addDiary() {
     const title = document.getElementById('diary-title').value.trim();
     if (!title) { showToast('❗ 제목 필수!'); return; }
-    let image_url = null; let images = [];
-    const files = document.getElementById('diary-image').files;
-    if (files.length) {
-      showToast(`🖼 이미지 ${files.length}장 업로드 중...`);
-      for (const f of files) {
-        const url = await uploadImage(f, 'diary');
-        if (url) images.push(url);
-      }
-      if (!images.length) { showToast('❌ 이미지 업로드 실패'); return; }
-      image_url = images[0];
-    }
+    // 이미지 링크(URL) — 줄바꿈으로 여러 장 가능
+    const images = document.getElementById('diary-imgs').value
+      .split('\n').map(s => s.trim()).filter(Boolean);
+    const image_url = images.length ? images[0] : null;
     const ok = await insertRow('diary', { title, content: document.getElementById('diary-content').value, mood: document.getElementById('diary-mood').value, diary_date: document.getElementById('diary-date').value, image_url, images });
-    if (ok) { showToast('✅ 추가!'); ['diary-title','diary-content','diary-date','diary-image'].forEach(id=>document.getElementById(id).value=''); loadDiary(); }
+    if (ok) { showToast('✅ 추가!'); ['diary-title','diary-content','diary-date','diary-imgs'].forEach(id=>document.getElementById(id).value=''); loadDiary(); }
     else showToast('❌ 실패');
   }
 
