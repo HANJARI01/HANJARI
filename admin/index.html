@@ -169,7 +169,7 @@
       <div class="card-title">공지 추가</div>
       <div class="form-field"><label class="input-label">제목 *</label><input class="input" id="noti-title"></div>
       <div class="form-field"><label class="input-label">내용</label><textarea class="input" id="noti-content" rows="4"></textarea></div>
-      <div class="form-field"><label class="input-label">이미지 (여러 장 선택 가능 · 자동 압축됨)</label><input type="file" id="noti-image" accept="image/*" class="input" multiple></div>
+      <div class="form-field"><label class="input-label">이미지 링크 (URL) · 여러 장이면 줄바꿈으로 여러 개</label><textarea class="input" id="noti-imgs" rows="3" placeholder="https://stimg.sooplive.com/.../1.png&#10;https://stimg.sooplive.com/.../2.png  ← 이미지 주소를 직접 붙여넣기 (한 줄에 하나)"></textarea></div>
       <div class="form-field"><label><input type="checkbox" id="noti-pin"> 📌 고정 공지</label></div>
       <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="addNotice()">+ 추가</button></div>
     </div>
@@ -521,19 +521,12 @@
   async function addNotice() {
     const title = document.getElementById('noti-title').value.trim();
     if (!title) { showToast('❗ 제목 필수!'); return; }
-    let image_url = null; let images = [];
-    const files = document.getElementById('noti-image').files;
-    if (files.length) {
-      showToast(`🖼 이미지 ${files.length}장 업로드 중...`);
-      for (const f of files) {
-        const url = await uploadImage(f, 'notice');
-        if (url) images.push(url);
-      }
-      if (!images.length) { showToast('❌ 이미지 업로드 실패'); return; }
-      image_url = images[0];
-    }
+    // 이미지 링크(URL) — 줄바꿈으로 여러 장 가능
+    const images = document.getElementById('noti-imgs').value
+      .split('\n').map(s => s.trim()).filter(Boolean);
+    const image_url = images.length ? images[0] : null;
     const ok = await insertRow('notice', { title, content: document.getElementById('noti-content').value, pinned: document.getElementById('noti-pin').checked, image_url, images });
-    if (ok) { showToast('✅ 추가!'); ['noti-title','noti-content','noti-image'].forEach(id=>document.getElementById(id).value=''); document.getElementById('noti-pin').checked=false; loadNotice(); }
+    if (ok) { showToast('✅ 추가!'); ['noti-title','noti-content','noti-imgs'].forEach(id=>document.getElementById(id).value=''); document.getElementById('noti-pin').checked=false; loadNotice(); }
     else showToast('❌ 실패');
   }
 
